@@ -15,9 +15,8 @@ fun main() {
             var position = 0
             var convertedToDigits = it
             while (position < convertedToDigits.length) {
-                mapOfDigits.forEach() { (key, value) ->
+                mapOfDigits.forEach { (key, value) ->
                     if (convertedToDigits.indexOf(key) == position) {
-                        // Replace character at position+1 with value
                         convertedToDigits = convertedToDigits.replaceRange(position + 1, position + 2, value.toString())
                     }
                 }
