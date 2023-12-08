@@ -13,7 +13,8 @@ const val ranks = "23456789TJQKA"
 const val ranksWithJokers = "J23456789TQKA"
 
 class Game(val hand: String, val bid: Int, withJokers: Boolean): Comparable<Game> {
-    private val handType = calculateHandType(hand, withJokers)
+    val handType = calculateHandType(hand, withJokers)
+    private val withJokers = withJokers
 
     private fun calculateHandType(hand: String, withJokers: Boolean): HandType {
         val rankCounts = hand.groupBy { ranks.indexOf( it ) }
@@ -71,8 +72,15 @@ class Game(val hand: String, val bid: Int, withJokers: Boolean): Comparable<Game
             return 1
         } else {
             for (i in 0..<5) {
-                val card = ranks.indexOf(this.hand[i])
-                val otherCard = ranks.indexOf(other.hand[i])
+                val card: Int
+                val otherCard: Int
+                if (withJokers) {
+                    card = ranksWithJokers.indexOf(this.hand[i])
+                    otherCard = ranksWithJokers.indexOf(other.hand[i])
+                } else {
+                    card = ranks.indexOf(this.hand[i])
+                    otherCard = ranks.indexOf(other.hand[i])
+                }
                 if (card < otherCard) {
                     return -1
                 } else if (card > otherCard) {
@@ -95,14 +103,12 @@ fun main() {
 
     fun part1(input: List<String>): Int {
         val games = parseInput(input).sorted()
-
         return games.mapIndexed { index, game -> (index+1) * game.bid }
             .sum()
     }
 
     fun part2(input: List<String>): Int {
         val games = parseInput(input, true).sorted()
-
         return games.mapIndexed { index, game -> (index+1) * game.bid }
             .sum()
     }
