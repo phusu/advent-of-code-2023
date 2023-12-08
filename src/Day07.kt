@@ -12,9 +12,8 @@ enum class HandType {
 const val ranks = "23456789TJQKA"
 const val ranksWithJokers = "J23456789TQKA"
 
-class Game(val hand: String, val bid: Int, withJokers: Boolean): Comparable<Game> {
-    val handType = calculateHandType(hand, withJokers)
-    private val withJokers = withJokers
+class Game(val hand: String, val bid: Int, private val withJokers: Boolean): Comparable<Game> {
+    private val handType = calculateHandType(hand, withJokers)
 
     private fun calculateHandType(hand: String, withJokers: Boolean): HandType {
         val rankCounts = hand.groupBy { ranks.indexOf( it ) }
